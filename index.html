@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Cri du Maheux - Appel de chasse</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        :root {
+            --bg-color: #1a2416;
+            --card-bg: #253320;
+            --text-color: #f0f4ef;
+            --accent-color: #8da252;
+            --accent-hover: #a1b85f;
+            --danger-color: #9c3a3a;
+            --border-color: #364930;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-color);
+        }
+
+        p.subtitle {
+            color: #a0b09a;
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #a0b09a;
+            padding: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            font-weight: bold;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #cbd5c8;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .file-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            border: 2px dashed var(--accent-color);
+            color: var(--accent-color);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background 0.2s;
+        }
+
+        .file-btn:hover {
+            background: rgba(141, 162, 82, 0.1);
+        }
+
+        input[type="file"] {
+            position: absolute;
+            left: 0; top: 0; opacity: 0;
+            width: 100%; height: 100%;
+            cursor: pointer;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .btn-primary:hover { background: var(--accent-hover); }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover { background: #b84545; }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .radio-tile {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .radio-tile.active {
+            border-color: var(--accent-color);
+            background: rgba(141, 162, 82, 0.1);
+        }
+
+        .status-box {
+            margin-top: 25px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .status-text {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .footer-info {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #7a8a75;
+            text-align: center;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo">🫎</div>
+        <h1>Le Cri du Maheux</h1>
+        <p class="subtitle">Tes propres calls. À ta façon. En forêt.</p>
+    </header>
+
+    <!-- Gestion des fichiers -->
+    <div class="file-input-wrapper">
+        <div class="file-btn">
+            <i data-lucide="plus-circle"></i> Ajouter mes sons (MP3/MP4)
+        </div>
+        <input type="file" id="audio-upload" accept="audio/*,video/*" multiple>
+    </div>
+
+    <!-- Onglets Modes -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('manuel')">
+            <i data-lucide="play"></i> Mode manuel
+        </button>
+        <button class="tab-btn" onclick="switchTab('auto')">
+            <i data-lucide="refresh-cw"></i> Mode automatique
+        </button>
+    </div>
+
+    <!-- SECTION MANUEL -->
+    <div id="manuel-section" class="section active">
+        <div class="form-group">
+            <label for="call-select-manuel">Call à jouer</label>
+            <select id="call-select-manuel">
+                <!-- Rempli dynamiquement en JS -->
+            </select>
+        </div>
+        <div class="btn-grid">
+            <button class="btn btn-primary" onclick="playManuel()">
+                <i data-lucide="play-circle"></i> JOUER LE CRI
+            </button>
+            <button class="btn btn-danger" onclick="stopAll()">
+                <i data-lucide="square"></i> Arrêter
+            </button>
+        </div>
+    </div>
+
+    <!-- SECTION AUTOMATIQUE -->
+    <div id="auto-section" class="section">
+        <div class="form-group">
+            <label for="call-select-auto">Call à répéter</label>
+            <select id="call-select-auto"></select>
+        </div>
+
+        <div class="form-group">
+            <label>Durée du cri (secondes)</label>
+            <input type="number" id="cri-duration" value="5" min="1">
+        </div>
+
+        <div class="form-group">
+            <label>Pause entre les cris (secondes)</label>
+            <input type="number" id="pause-duration" value="30" min="1">
+        </div>
+
+        <div class="form-group">
+            <label>Nombre de répétitions</label>
+            <div class="radio-group">
+                <div class="radio-tile active" onclick="selectRepeat(this, 3)">3 fois</div>
+                <div class="radio-tile" onclick="selectRepeat(this, 5)">5 fois</div>
+                <div class="radio-tile" onclick="selectRepeat(this, 10)">10 fois</div>
+                <div class="radio-tile" onclick="selectRepeat(this, 'inf')">En continu</div>
+            </div>
+        </div>
+
+        <div class="btn-grid">
+            <button class="btn btn-primary" onclick="startAutoSequence()">
+                <i data-lucide="refresh-cw"></i> DÉMARRER
+            </button>
+            <button class="btn btn-danger" onclick="stopAll()">
+                <i data-lucide="square"></i> Arrêter
+            </button>
+        </div>
+    </div>
+
+    <!-- Boîte de statut -->
+    <div class="status-box">
+        Statut : <span id="status-display" class="status-text">Prêt à appeler</span>
+    </div>
+
+    <div class="footer-info">
+        L'écran doit rester ouvert pour que la séquence continue.<br>
+        Teste le volume avant la chasse et respecte les règles locales.<br>
+        <strong>Version PWA v1.0 • Le Cri du Maheux</strong>
+    </div>
+</div>
+
+<script>
+    // Initialisation des icônes Lucide
+    lucide.createIcons();
+
+    // Base de données des sons (inclut 5 sons intégrés simulés + imports utilisateurs)
+    let playlist = [
+        { name: "🦌 Orignal - Femelle en chaleur (Intégré)", url: "https://soundhelix.com" },
+        { name: "🫎 Orignal - Mâle provocateur (Intégré)", url: "https://soundhelix.com" },
+        { name: "🦌 Chevreuil - Grunt (Intégré)", url: "https://soundhelix.com" },
+        { name: "🦃 Dindon - Glougloutement (Intégré)", url: "https://soundhelix.com" },
